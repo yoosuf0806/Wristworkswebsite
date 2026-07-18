@@ -1,5 +1,4 @@
 import type {
-  Product,
   CategoryContent,
   Faq,
   Review,
@@ -11,258 +10,9 @@ import type {
 // Bundled sample data. Used as a fallback whenever Supabase isn't configured
 // so the whole site renders out of the box, and mirrors supabase/seed.sql.
 
-const img = (q: string, alt: string, position = 0) => ({
-  url: `https://images.unsplash.com/${q}?auto=format&fit=crop&w=1200&q=80`,
-  alt,
-  position,
-});
+// The full 17-product catalog lives in products.data.ts (generated).
+export { catalogProducts as mockProducts } from "@/lib/data/products.data";
 
-export const mockProducts: Product[] = [
-  {
-    id: "ga2100",
-    slug: "casio-g-shock-ga-2100-carbon-core",
-    name: "G-Shock GA-2100 Carbon Core",
-    brand: "Casio",
-    categories: ["mens-watches", "analog-watches", "unisex-watches"],
-    reference: "GA-2100-1A1",
-    description:
-      "The GA-2100 pairs Casio's Carbon Core Guard case with a slim octagonal bezel — the 'CasiOak' silhouette that put G-Shock on every wrist. Analog-digital display, 200m water resistance and shock resistance in a package under 12mm thick.",
-    specs: {
-      Movement: "Analog-digital quartz",
-      Case: "Carbon Core Guard, 45.4mm",
-      "Water resistance": "200m",
-      Battery: "CR2016, ~3 years",
-      Features: "World time, stopwatch, LED backlight",
-    },
-    price: 64500,
-    offerPrice: 51500,
-    stock: 12,
-    featured: true,
-    newArrival: true,
-    images: [img("photo-1523275335684-37898b6baf30", "Casio G-Shock GA-2100 Carbon Core on a dark surface")],
-    ratingAverage: 4.8,
-    ratingCount: 42,
-    metaTitle: "Casio G-Shock GA-2100 Carbon Core — Buy Authentic in Sri Lanka",
-    metaDescription:
-      "Genuine Casio G-Shock GA-2100 'CasiOak' with 200m water resistance. Authorised stock, full warranty, island-wide delivery from Colombo.",
-    focusKeyword: "casio g-shock ga-2100 sri lanka",
-    ogImage: null,
-    createdAt: "2026-06-01T00:00:00Z",
-  },
-  {
-    id: "srpd55",
-    slug: "seiko-5-sports-srpd55-automatic",
-    name: "5 Sports SRPD55 Automatic",
-    brand: "Seiko",
-    categories: ["mens-watches", "analog-watches", "dive-watches"],
-    reference: "SRPD55K3",
-    description:
-      "The SRPD55 carries the 5 Sports line's SKX heritage — a black sunburst dial, day-date at three, and LumiBrite hands that stay legible long after sunset. The 4R36 automatic hand-winds and hacks, and the 100m rating handles a swim without a second thought.",
-    specs: {
-      Movement: "Seiko 4R36, 24 jewels, 41h reserve",
-      Case: "Stainless steel, 42.5mm × 13.4mm",
-      Crystal: "Hardlex",
-      Dial: "Black sunburst, day-date",
-      "Water resistance": "100m",
-      Lume: "LumiBrite hands & indices",
-    },
-    price: 118000,
-    offerPrice: 94500,
-    stock: 6,
-    featured: true,
-    newArrival: true,
-    images: [img("photo-1524592094714-0f0654e20314", "Seiko 5 Sports SRPD55 automatic watch with black dial")],
-    ratingAverage: 4.9,
-    ratingCount: 63,
-    metaTitle: "Seiko 5 Sports SRPD55 Automatic — Authentic, Colombo Sri Lanka",
-    metaDescription:
-      "Genuine Seiko 5 Sports SRPD55 automatic with 4R36 movement and 100m water resistance. Sealed box, stamped warranty, delivered island-wide.",
-    focusKeyword: "seiko 5 srpd55 sri lanka",
-    ogImage: null,
-    createdAt: "2026-06-02T00:00:00Z",
-  },
-  {
-    id: "bm8180",
-    slug: "citizen-eco-drive-bm8180-field",
-    name: "Eco-Drive BM8180 Field",
-    brand: "Citizen",
-    categories: ["mens-watches", "analog-watches"],
-    reference: "BM8180-03E",
-    description:
-      "A do-everything field watch powered by light — never needs a battery. Green dial, 37mm case and a canvas strap that suits jeans as easily as chinos. Citizen's Eco-Drive runs for months on a full charge.",
-    specs: {
-      Movement: "Citizen Eco-Drive (light powered)",
-      Case: "Stainless steel, 37mm",
-      "Water resistance": "100m",
-      "Power reserve": "180 days",
-    },
-    price: 56500,
-    offerPrice: 47900,
-    stock: 9,
-    featured: false,
-    newArrival: true,
-    images: [img("photo-1533139502658-0198f920d8e8", "Citizen Eco-Drive BM8180 field watch with green dial")],
-    ratingAverage: 4.7,
-    ratingCount: 31,
-    metaTitle: "Citizen Eco-Drive BM8180 Field Watch — Buy in Sri Lanka",
-    metaDescription:
-      "Genuine Citizen Eco-Drive BM8180 field watch, light powered with up to 5-year warranty. Authorised stock, island-wide delivery from Colombo.",
-    focusKeyword: "citizen eco-drive bm8180",
-    ogImage: null,
-    createdAt: "2026-06-03T00:00:00Z",
-  },
-  {
-    id: "nj0150",
-    slug: "citizen-tsuyosa-nj0150-automatic",
-    name: "Tsuyosa NJ0150 Automatic",
-    brand: "Citizen",
-    categories: ["mens-watches", "dress-watches", "unisex-watches"],
-    reference: "NJ0150-81X",
-    description:
-      "Citizen's answer to the integrated-bracelet sports watch. A sunray green dial, faceted indices and an automatic movement visible through the display back — presence far above its price.",
-    specs: {
-      Movement: "Citizen 8210 automatic",
-      Case: "Stainless steel, 40mm",
-      "Water resistance": "50m",
-      Bracelet: "Integrated stainless steel",
-    },
-    price: 112000,
-    offerPrice: null,
-    stock: 4,
-    featured: true,
-    newArrival: true,
-    images: [img("photo-1547996160-81dfa63595aa", "Citizen Tsuyosa NJ0150 automatic watch with green dial")],
-    ratingAverage: 4.8,
-    ratingCount: 18,
-    metaTitle: "Citizen Tsuyosa NJ0150 Automatic — Green Dial, Sri Lanka",
-    metaDescription:
-      "Genuine Citizen Tsuyosa NJ0150 automatic with integrated bracelet and sunray green dial. Authorised stock and warranty, delivered island-wide.",
-    focusKeyword: "citizen tsuyosa nj0150",
-    ogImage: null,
-    createdAt: "2026-06-04T00:00:00Z",
-  },
-  {
-    id: "a168",
-    slug: "casio-vintage-a168wa-digital",
-    name: "Vintage A168WA Digital",
-    brand: "Casio",
-    categories: ["digital-watches", "unisex-watches"],
-    reference: "A168WA-1",
-    description:
-      "The same stainless case your father wore, still under Rs. 20,000. Seven-year battery, LED backlight, and a bracelet that goes with everything from denim to a dinner jacket.",
-    specs: {
-      Movement: "Digital quartz",
-      Case: "Stainless steel, 38mm",
-      Battery: "~7 years",
-      Features: "LED backlight, stopwatch, alarm",
-    },
-    price: 16800,
-    offerPrice: 14800,
-    stock: 25,
-    featured: true,
-    newArrival: false,
-    images: [img("photo-1434056886845-dac89ffe9b56", "Casio Vintage A168WA digital watch on steel bracelet")],
-    ratingAverage: 4.9,
-    ratingCount: 88,
-    metaTitle: "Casio Vintage A168WA Digital — Retro Steel, Sri Lanka",
-    metaDescription:
-      "Genuine Casio Vintage A168WA digital watch with LED backlight and 7-year battery. Authorised stock, island-wide delivery from Colombo.",
-    focusKeyword: "casio a168 sri lanka",
-    ogImage: null,
-    createdAt: "2026-05-20T00:00:00Z",
-  },
-  {
-    id: "srpb43",
-    slug: "seiko-presage-cocktail-time-srpb43",
-    name: "Presage Cocktail Time SRPB43",
-    brand: "Seiko",
-    categories: ["mens-watches", "dress-watches"],
-    reference: "SRPB43J1",
-    description:
-      "Seiko's Presage Cocktail Time turns a bar in Ginza into a dial. Hand-finished sunburst blue, 4R35 movement, and a presence far beyond its price. Our pick for a first proper automatic.",
-    specs: {
-      Movement: "Seiko 4R35 automatic, 41h reserve",
-      Case: "Stainless steel, 40.5mm",
-      Crystal: "Box-shaped Hardlex",
-      Dial: "Blue sunburst",
-      "Water resistance": "50m",
-    },
-    price: 168000,
-    offerPrice: null,
-    stock: 3,
-    featured: true,
-    newArrival: false,
-    images: [img("photo-1587836374828-4dbafa94cf0e", "Seiko Presage Cocktail Time SRPB43 with blue sunburst dial")],
-    ratingAverage: 5.0,
-    ratingCount: 24,
-    metaTitle: "Seiko Presage Cocktail Time SRPB43 — Blue Dial, Sri Lanka",
-    metaDescription:
-      "Genuine Seiko Presage Cocktail Time SRPB43 automatic dress watch with blue sunburst dial. Authorised stock and warranty, delivered island-wide.",
-    focusKeyword: "seiko presage cocktail time",
-    ogImage: null,
-    createdAt: "2026-05-18T00:00:00Z",
-  },
-  {
-    id: "srpe93",
-    slug: "seiko-prospex-srpe93-turtle-diver",
-    name: "Prospex SRPE93 Turtle Diver",
-    brand: "Seiko",
-    categories: ["mens-watches", "dive-watches"],
-    reference: "SRPE93K1",
-    description:
-      "The cushion-cased 'Turtle' is a modern dive icon — 200m rated, day-date, and lume you could read from across the room. 4R36 automatic with hacking and hand-winding.",
-    specs: {
-      Movement: "Seiko 4R36 automatic",
-      Case: "Stainless steel, 45mm cushion",
-      "Water resistance": "200m",
-      Bezel: "Unidirectional dive bezel",
-    },
-    price: 152000,
-    offerPrice: 129000,
-    stock: 5,
-    featured: false,
-    newArrival: false,
-    images: [img("photo-1509048191080-d2984bad6ae5", "Seiko Prospex SRPE93 Turtle dive watch")],
-    ratingAverage: 4.9,
-    ratingCount: 37,
-    metaTitle: "Seiko Prospex SRPE93 Turtle Diver — 200m, Sri Lanka",
-    metaDescription:
-      "Genuine Seiko Prospex SRPE93 Turtle automatic diver, 200m rated. Authorised stock, full warranty, island-wide delivery from Colombo.",
-    focusKeyword: "seiko turtle srpe93",
-    ogImage: null,
-    createdAt: "2026-05-15T00:00:00Z",
-  },
-  {
-    id: "bga280",
-    slug: "casio-baby-g-bga-280-tonal",
-    name: "Baby-G BGA-280 Tonal",
-    brand: "Casio",
-    categories: ["womens-watches", "analog-watches", "digital-watches"],
-    reference: "BGA-280-4A",
-    description:
-      "A slim ana-digi Baby-G in a soft tonal colourway — shock resistant, 100m water resistant, and sized for smaller wrists. World time, stopwatch and the toughness Baby-G is known for.",
-    specs: {
-      Movement: "Analog-digital quartz",
-      Case: "Resin, 41mm",
-      "Water resistance": "100m",
-      Features: "World time, stopwatch, LED light",
-    },
-    price: 38800,
-    offerPrice: null,
-    stock: 14,
-    featured: false,
-    newArrival: false,
-    images: [img("photo-1495856458515-0637185db551", "Casio Baby-G BGA-280 tonal watch")],
-    ratingAverage: 4.7,
-    ratingCount: 21,
-    metaTitle: "Casio Baby-G BGA-280 Tonal — Women's Watch, Sri Lanka",
-    metaDescription:
-      "Genuine Casio Baby-G BGA-280 ana-digi women's watch, 100m water resistant. Authorised stock, island-wide delivery from Colombo.",
-    focusKeyword: "casio baby-g bga-280",
-    ogImage: null,
-    createdAt: "2026-05-10T00:00:00Z",
-  },
-];
 
 export const mockCategories: CategoryContent[] = [
   {
@@ -442,6 +192,61 @@ export const mockFaqs: Faq[] = [
     question: "Can I exchange or return a watch?",
     answer:
       "Unworn watches with intact tags and packaging can be exchanged within 7 days. If we shipped the wrong item or it arrives damaged, we replace it free — courier on us.",
+  },
+  // Shop-page FAQs (rendered on /shop with FAQPage schema).
+  {
+    id: "sf1",
+    scope: "page",
+    scopeRef: "shop",
+    position: 0,
+    question: "How do I filter watches by brand?",
+    answer:
+      "Open the Filters panel on the left, expand \"Brand\", and tick Casio, Edifice, Seiko or Citizen. The grid updates instantly, and you can stack filters — for example Seiko + Dive + Under Rs. 150,000.",
+  },
+  {
+    id: "sf2",
+    scope: "page",
+    scopeRef: "shop",
+    position: 1,
+    question: "Are all in-stock watches available for immediate delivery?",
+    answer:
+      "Yes. Anything marked in stock ships from Colombo within 24 hours, arriving in 1–2 days in Colombo & suburbs and 2–4 days island-wide.",
+  },
+  {
+    id: "sf3",
+    scope: "page",
+    scopeRef: "shop",
+    position: 2,
+    question: "Can I order a watch that is out of stock?",
+    answer:
+      "Message us on WhatsApp — most out-of-stock pieces restock within 2–3 weeks, and we can reserve one against a small deposit. We also source references we don't list.",
+  },
+  {
+    id: "sf4",
+    scope: "page",
+    scopeRef: "shop",
+    position: 3,
+    question: "Do you offer instalment payments?",
+    answer:
+      "Yes — pay in 3 interest-free instalments with Koko at checkout. No credit card needed; approval takes about a minute.",
+  },
+  {
+    id: "sf5",
+    scope: "page",
+    scopeRef: "shop",
+    position: 4,
+    question: "How do I use a discount code?",
+    answer:
+      "Add your watches to the cart, then enter the code in the \"Discount code\" box on the cart page and press Apply. The discount shows immediately in your order summary.",
+  },
+  {
+    id: "sf6",
+    scope: "page",
+    scopeRef: "shop",
+    position: 5,
+    question: "What is the delivery time to my area?",
+    answer:
+      "Colombo 1–15 & suburbs: 1–2 working days (COD available). Kandy, Galle, Kurunegala and other major towns: 2–3 days. Everywhere else island-wide: 2–4 days via insured courier.",
   },
 ];
 

@@ -27,7 +27,7 @@ const defaults: Record<string, PageSeo> = {
       "Browse every authentic Casio, Seiko and Citizen watch in stock. Filter by brand, type and price. Full warranty and island-wide delivery from Colombo.",
     focusKeyword: "buy watches online sri lanka",
     seoParagraph:
-      "Shop the full Wrist Works collection of 100% authentic Casio, Seiko and Citizen watches. Every piece is sourced from authorised distributors, inspected in Colombo and delivered island-wide with a stamped manufacturer warranty.",
+      "Wrist Works is Colombo's online boutique for 100% genuine Casio, Edifice, Seiko and Citizen watches. Every piece is sourced from authorised distributors, inspected by hand, and shipped island-wide in 2–4 working days with its full manufacturer warranty. Pay by card, cash on delivery, or in three interest-free instalments with Koko.",
   },
   about: {
     pageKey: "about",

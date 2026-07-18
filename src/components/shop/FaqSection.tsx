@@ -1,5 +1,6 @@
 import { Accordion } from "@/components/ui/Accordion";
 import { FaqSchema } from "@/components/seo/schemas";
+import { whatsappLink } from "@/lib/seo/siteConfig";
 import type { Faq } from "@/types";
 
 // Renders a FAQ block with visible accordion + FAQPage JSON-LD. Reused on the
@@ -22,9 +23,9 @@ export function FaqSection({
       <div>
         <div className="eyebrow mb-[18px]">{eyebrow}</div>
         <h2 className="m-0 font-serif text-[34px] font-normal leading-[1.2]">{heading}</h2>
-        <p className="mt-5 text-[13.5px] leading-[1.8] text-muted2">
-          Anything else — we&apos;re one WhatsApp message away.
-        </p>
+        <a href={whatsappLink()} className="mt-5 inline-block text-[13.5px] text-whatsapp hover:opacity-80">
+          Ask us directly on WhatsApp →
+        </a>
       </div>
       <Accordion items={items} />
     </section>

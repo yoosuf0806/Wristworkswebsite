@@ -27,12 +27,13 @@ export async function getFaqsFor(
   ref?: string
 ): Promise<Faq[]> {
   const all = await getAllFaqs();
-  const scoped = all.filter((f) => f.scope === scope && (!ref || f.scopeRef === ref));
-  const globals = all.filter((f) => f.scope === "global");
-  const combined = [...scoped, ...globals];
-  // Deduplicate by id and keep at most a sensible number for the schema.
-  const seen = new Set<string>();
-  return combined.filter((f) => (seen.has(f.id) ? false : (seen.add(f.id), true)));
+  const scoped = all
+    .filter((f) => f.scope === scope && (!ref || f.scopeRef === ref))
+    .sort((a, b) => a.position - b.position);
+  // When a page/category/product has its own FAQs, show those alone (matching
+  // the design). Otherwise fall back to the global set.
+  if (scoped.length > 0) return scoped;
+  return all.filter((f) => f.scope === "global").sort((a, b) => a.position - b.position);
 }
 
 // Home-page FAQs (global set).

@@ -25,6 +25,7 @@ export interface Database {
           new_arrival: boolean;
           rating_average: number;
           rating_count: number;
+          attributes: Json | null;
           meta_title: string | null;
           meta_description: string | null;
           focus_keyword: string | null;

@@ -25,6 +25,7 @@ create table if not exists public.products (
   new_arrival    boolean not null default false,
   rating_average numeric(2,1) not null default 0,
   rating_count   integer not null default 0,
+  attributes     jsonb,                      -- shop filter facets (display, style, case/dial colour, features, collection)
   -- SEO fields, editable from the admin dashboard
   meta_title       text,
   meta_description text,

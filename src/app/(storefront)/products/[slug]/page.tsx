@@ -11,6 +11,7 @@ import { getReviewsForProduct, aggregate } from "@/lib/data/reviews";
 import { getFaqsFor } from "@/lib/data/faqs";
 import { Gallery } from "@/components/product/Gallery";
 import { AddToCart } from "@/components/product/AddToCart";
+import { RecordView } from "@/components/product/RecordView";
 import { Reviews } from "@/components/product/Reviews";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { Accordion } from "@/components/ui/Accordion";
@@ -88,6 +89,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
   return (
     <>
       <ProductSchema product={productForSchema} />
+      <RecordView product={product} />
       <BreadcrumbSchema crumbs={crumbs} />
 
       <div className="px-6 pt-8 md:px-12">

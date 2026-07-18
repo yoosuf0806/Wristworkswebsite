@@ -31,9 +31,22 @@ export function ProductCard({ product }: { product: Product }) {
             <Badge>−{discountPercent(product.price, product.offerPrice)}%</Badge>
           </div>
         )}
+
+        {/* Out-of-stock overlay */}
         {product.stock === 0 && (
-          <div className="absolute left-3 top-3 bg-black/80 px-[9px] py-[5px] text-[10.5px] font-bold uppercase tracking-[.1em] text-white">
-            Sold out
+          <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+            <span className="border border-white/60 px-4 py-2 text-[11px] font-semibold uppercase tracking-[.18em] text-white">
+              Out of stock
+            </span>
+          </div>
+        )}
+
+        {/* Quick view on hover (in-stock only) */}
+        {product.stock > 0 && (
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center p-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+            <span className="bg-white px-[22px] py-[11px] text-[10.5px] font-semibold uppercase tracking-[.16em] text-black">
+              Quick view
+            </span>
           </div>
         )}
       </div>

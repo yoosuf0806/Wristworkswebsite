@@ -27,6 +27,7 @@ function mapProduct(row: ProductRow, images: ImageRow[]): Product {
       .map((i) => ({ url: i.url, alt: i.alt, position: i.position })),
     ratingAverage: row.rating_average,
     ratingCount: row.rating_count,
+    attributes: (row.attributes as Product["attributes"]) ?? null,
     metaTitle: row.meta_title,
     metaDescription: row.meta_description,
     focusKeyword: row.focus_keyword,

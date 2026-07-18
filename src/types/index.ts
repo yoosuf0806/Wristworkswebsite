@@ -50,6 +50,16 @@ export interface SeoFields {
   ogImage?: string | null;
 }
 
+// Merchandising attributes that power the shop's faceted filters.
+export interface ProductAttributes {
+  display?: "Digital" | "Analog" | "Ana-Digi" | null;
+  style?: string | null;
+  caseColor?: string | null;
+  dial?: string | null;
+  features?: string[] | null;
+  collection?: string | null;
+}
+
 // The core product entity.
 export interface Product extends SeoFields {
   id: string;
@@ -68,6 +78,7 @@ export interface Product extends SeoFields {
   images: ProductImage[];
   ratingAverage: number;
   ratingCount: number;
+  attributes?: ProductAttributes | null;
   createdAt: string;
 }
 
