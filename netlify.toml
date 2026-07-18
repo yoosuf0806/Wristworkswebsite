@@ -1,0 +1,9 @@
+# Netlify config — builds this Next.js 14 (App Router) app with the official
+# Next.js runtime plugin, which handles SSR, API routes, image optimization
+# and the dynamic sitemap/robots routes.
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
