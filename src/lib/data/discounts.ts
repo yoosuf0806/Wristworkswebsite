@@ -1,4 +1,4 @@
-import { createServerSupabase, hasSupabase } from "@/lib/supabase/server";
+import { createPublicSupabase, hasSupabase } from "@/lib/supabase/server";
 import type { DiscountCode } from "@/types";
 import { mockDiscounts } from "@/lib/data/mock";
 
@@ -6,8 +6,8 @@ import { mockDiscounts } from "@/lib/data/mock";
 
 export async function getAllDiscounts(): Promise<DiscountCode[]> {
   if (!hasSupabase()) return mockDiscounts;
-  const supabase = createServerSupabase();
-  const { data } = await supabase.from("discount_codes").select("*");
+  const supabase = createPublicSupabase();
+  const { data } = (await supabase.from("discount_codes").select("*")) as { data: any[] | null };
   if (!data) return mockDiscounts;
   return data.map((d) => ({
     id: d.id,

@@ -3,9 +3,10 @@ import { cookies } from "next/headers";
 
 type CookieToSet = { name: string; value: string; options?: Record<string, unknown> };
 
-// Server-side Supabase client bound to the request cookies. Use in Server
-// Components, Route Handlers and Server Actions for reads that honour RLS.
-// Left untyped so the hand-authored mappers in lib/data/* own the row shapes.
+// Server-side Supabase client bound to the request cookies. Use only for reads
+// that need to honour a signed-in user's session (Supabase Auth). Calling
+// cookies() throws when used outside a request scope (e.g. generateStaticParams
+// during `next build`), so this must never be used by the public data layer.
 export function createServerSupabase() {
   const cookieStore = cookies();
   return createServerClient(
@@ -30,9 +31,23 @@ export function createServerSupabase() {
   );
 }
 
+// Stateless server client (anon key, no cookies). Use for public catalog reads
+// in lib/data/* — safe to call anywhere, including build-time static
+// generation, since it never touches the request/cookie context. Explicit
+// `any` return type so responses stay loosely typed and callers own the row
+// shape via their own mappers, rather than fighting supabase-js's generics.
+export function createPublicSupabase(): any {
+  const { createClient } = require("@supabase/supabase-js");
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { auth: { persistSession: false } }
+  );
+}
+
 // Elevated client using the service-role key. SERVER ONLY — bypasses RLS, so
 // only use it in trusted API routes (admin writes, webhooks).
-export function createAdminSupabase() {
+export function createAdminSupabase(): any {
   const { createClient } = require("@supabase/supabase-js");
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

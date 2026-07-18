@@ -1,4 +1,4 @@
-import { createServerSupabase, hasSupabase } from "@/lib/supabase/server";
+import { createPublicSupabase, hasSupabase } from "@/lib/supabase/server";
 import type { Faq } from "@/types";
 import { mockFaqs } from "@/lib/data/mock";
 
@@ -7,8 +7,8 @@ import { mockFaqs } from "@/lib/data/mock";
 
 export async function getAllFaqs(): Promise<Faq[]> {
   if (!hasSupabase()) return mockFaqs;
-  const supabase = createServerSupabase();
-  const { data } = await supabase.from("faqs").select("*").order("position");
+  const supabase = createPublicSupabase();
+  const { data } = (await supabase.from("faqs").select("*").order("position")) as { data: any[] | null };
   if (!data) return mockFaqs;
   return data.map((f) => ({
     id: f.id,

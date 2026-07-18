@@ -1,4 +1,4 @@
-import { createServerSupabase, hasSupabase } from "@/lib/supabase/server";
+import { createPublicSupabase, hasSupabase } from "@/lib/supabase/server";
 import type { SeoFields } from "@/types";
 
 // Per-static-page SEO overrides (home, shop, about, contact, …) editable from
@@ -62,7 +62,7 @@ const defaults: Record<string, PageSeo> = {
 export async function getPageSeo(pageKey: string): Promise<PageSeo> {
   const fallback = defaults[pageKey] || { pageKey };
   if (!hasSupabase()) return fallback;
-  const supabase = createServerSupabase();
+  const supabase = createPublicSupabase();
   const { data } = await supabase.from("page_seo").select("*").eq("page_key", pageKey).maybeSingle();
   if (!data) return fallback;
   return {
@@ -78,8 +78,8 @@ export async function getPageSeo(pageKey: string): Promise<PageSeo> {
 
 export async function getAllPageSeo(): Promise<PageSeo[]> {
   if (!hasSupabase()) return Object.values(defaults);
-  const supabase = createServerSupabase();
-  const { data } = await supabase.from("page_seo").select("*");
+  const supabase = createPublicSupabase();
+  const { data } = (await supabase.from("page_seo").select("*")) as { data: any[] | null };
   if (!data || data.length === 0) return Object.values(defaults);
   return data.map((d) => ({
     pageKey: d.page_key,

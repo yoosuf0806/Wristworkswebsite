@@ -1,4 +1,4 @@
-import { createServerSupabase, hasSupabase } from "@/lib/supabase/server";
+import { createPublicSupabase, hasSupabase } from "@/lib/supabase/server";
 import type { Database } from "@/types/database.types";
 import type { Product, Brand, WatchCategory } from "@/types";
 import { mockProducts } from "@/lib/data/mock";
@@ -38,9 +38,11 @@ function mapProduct(row: ProductRow, images: ImageRow[]): Product {
 // Fetch every product (with images). Falls back to bundled mock data.
 export async function getAllProducts(): Promise<Product[]> {
   if (!hasSupabase()) return mockProducts;
-  const supabase = createServerSupabase();
-  const { data: products } = await supabase.from("products").select("*").order("created_at", { ascending: false });
-  const { data: images } = await supabase.from("product_images").select("*");
+  const supabase = createPublicSupabase();
+  const { data: products } = (await supabase.from("products").select("*").order("created_at", { ascending: false })) as {
+    data: any[] | null;
+  };
+  const { data: images } = (await supabase.from("product_images").select("*")) as { data: any[] | null };
   if (!products) return mockProducts;
   const byProduct = new Map<string, ImageRow[]>();
   (images || []).forEach((im) => {
@@ -54,7 +56,7 @@ export async function getAllProducts(): Promise<Product[]> {
 // Fetch a single product by its SEO slug, or null if not found.
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   if (!hasSupabase()) return mockProducts.find((p) => p.slug === slug) ?? null;
-  const supabase = createServerSupabase();
+  const supabase = createPublicSupabase();
   const { data: product } = await supabase.from("products").select("*").eq("slug", slug).maybeSingle();
   if (!product) return null;
   const { data: images } = await supabase.from("product_images").select("*").eq("product_id", product.id);

@@ -1,4 +1,4 @@
-import { createServerSupabase, hasSupabase } from "@/lib/supabase/server";
+import { createPublicSupabase, hasSupabase } from "@/lib/supabase/server";
 import type { CategoryContent } from "@/types";
 import { mockCategories } from "@/lib/data/mock";
 
@@ -7,8 +7,8 @@ import { mockCategories } from "@/lib/data/mock";
 
 export async function getAllCategories(): Promise<CategoryContent[]> {
   if (!hasSupabase()) return mockCategories;
-  const supabase = createServerSupabase();
-  const { data } = await supabase.from("categories").select("*");
+  const supabase = createPublicSupabase();
+  const { data } = (await supabase.from("categories").select("*")) as { data: any[] | null };
   if (!data) return mockCategories;
   return data.map((c) => ({
     slug: c.slug,

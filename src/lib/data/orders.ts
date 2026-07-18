@@ -1,4 +1,4 @@
-import { createServerSupabase, hasSupabase } from "@/lib/supabase/server";
+import { createPublicSupabase, hasSupabase } from "@/lib/supabase/server";
 import type { Order } from "@/types";
 import { mockOrders } from "@/lib/data/mock";
 
@@ -24,14 +24,14 @@ function mapOrder(row: any): Order {
 
 export async function getAllOrders(): Promise<Order[]> {
   if (!hasSupabase()) return mockOrders;
-  const supabase = createServerSupabase();
+  const supabase = createPublicSupabase();
   const { data } = await supabase.from("orders").select("*").order("created_at", { ascending: false });
   return data ? data.map(mapOrder) : mockOrders;
 }
 
 export async function getOrderById(id: string): Promise<Order | null> {
   if (!hasSupabase()) return mockOrders.find((o) => o.id === id || o.reference === id) ?? null;
-  const supabase = createServerSupabase();
+  const supabase = createPublicSupabase();
   const { data } = await supabase
     .from("orders")
     .select("*")

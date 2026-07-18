@@ -1,4 +1,4 @@
-import { createServerSupabase, hasSupabase } from "@/lib/supabase/server";
+import { createPublicSupabase, hasSupabase } from "@/lib/supabase/server";
 import type { Customer } from "@/types";
 import { mockCustomers } from "@/lib/data/mock";
 
@@ -6,8 +6,10 @@ import { mockCustomers } from "@/lib/data/mock";
 
 export async function getAllCustomers(): Promise<Customer[]> {
   if (!hasSupabase()) return mockCustomers;
-  const supabase = createServerSupabase();
-  const { data } = await supabase.from("customers").select("*").order("created_at", { ascending: false });
+  const supabase = createPublicSupabase();
+  const { data } = (await supabase.from("customers").select("*").order("created_at", { ascending: false })) as {
+    data: any[] | null;
+  };
   if (!data) return mockCustomers;
   return data.map((c) => ({
     id: c.id,

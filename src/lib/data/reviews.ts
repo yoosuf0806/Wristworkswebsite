@@ -1,4 +1,4 @@
-import { createServerSupabase, hasSupabase } from "@/lib/supabase/server";
+import { createPublicSupabase, hasSupabase } from "@/lib/supabase/server";
 import type { Review } from "@/types";
 import { mockReviews } from "@/lib/data/mock";
 
@@ -7,13 +7,13 @@ import { mockReviews } from "@/lib/data/mock";
 
 export async function getReviewsForProduct(productId: string): Promise<Review[]> {
   if (!hasSupabase()) return mockReviews.filter((r) => r.productId === productId && r.approved);
-  const supabase = createServerSupabase();
-  const { data } = await supabase
+  const supabase = createPublicSupabase();
+  const { data } = (await supabase
     .from("reviews")
     .select("*")
     .eq("product_id", productId)
     .eq("approved", true)
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false })) as { data: any[] | null };
   if (!data) return [];
   return data.map((r) => ({
     id: r.id,
@@ -31,13 +31,13 @@ export async function getReviewsForProduct(productId: string): Promise<Review[]>
 // Recent approved reviews across all products — for the home-page social proof.
 export async function getRecentReviews(limit = 3): Promise<Review[]> {
   if (!hasSupabase()) return mockReviews.filter((r) => r.approved).slice(0, limit);
-  const supabase = createServerSupabase();
-  const { data } = await supabase
+  const supabase = createPublicSupabase();
+  const { data } = (await supabase
     .from("reviews")
     .select("*")
     .eq("approved", true)
     .order("created_at", { ascending: false })
-    .limit(limit);
+    .limit(limit)) as { data: any[] | null };
   if (!data) return [];
   return data.map((r) => ({
     id: r.id,
