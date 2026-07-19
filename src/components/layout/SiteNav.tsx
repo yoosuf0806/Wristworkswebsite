@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { navLinks } from "@/constants/navigation";
 import { useCart } from "@/lib/cart/cartStore";
 import { cn } from "@/lib/utils";
@@ -14,6 +14,13 @@ export function SiteNav() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const count = useCart((s) => s.items.reduce((t, i) => t + i.qty, 0));
+
+  // The nav stays mounted across route changes (it lives in the layout), so
+  // close the search overlay and clear the query whenever the path changes.
+  useEffect(() => {
+    setSearchOpen(false);
+    setQuery("");
+  }, [pathname]);
 
   const submitSearch = (e: React.FormEvent) => {
     e.preventDefault();
