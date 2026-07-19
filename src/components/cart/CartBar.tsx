@@ -6,10 +6,12 @@ import { usePathname } from "next/navigation";
 import { useCart } from "@/lib/cart/cartStore";
 import { formatPrice } from "@/lib/utils";
 
-// Sticky bottom cart summary bar. Fixed height regardless of item count: shows
-// up to three overlapping thumbnails + a "+N" badge, the item count and total,
-// and View cart / Checkout. Hidden on the cart, checkout and product pages
-// (product pages show their own quick-add bar instead).
+// Sticky bottom cart summary bar. Shown only while browsing the shop (the
+// /shop listing and brand/category pages) once the cart has items — a
+// "keep shopping" shortcut. It does not appear on the home page, product
+// pages (which have their own quick-add bar), the cart or checkout. Fixed
+// height regardless of item count: up to three overlapping thumbnails + a
+// "+N" badge, the item count and total, and View cart / Checkout.
 export function CartBar() {
   const pathname = usePathname();
   const items = useCart((s) => s.items);
@@ -17,12 +19,8 @@ export function CartBar() {
   const subtotal = items.reduce((t, i) => t + i.price * i.qty, 0);
 
   if (count === 0) return null;
-  if (
-    pathname.startsWith("/cart") ||
-    pathname.startsWith("/checkout") ||
-    pathname.startsWith("/products/")
-  )
-    return null;
+  // Only on the shop listing and brand/category pages.
+  if (!pathname.startsWith("/shop")) return null;
 
   const thumbs = items.slice(0, 3);
   const extra = items.length - thumbs.length;
