@@ -7,18 +7,18 @@ import { useCart } from "@/lib/cart/cartStore";
 import { formatPrice } from "@/lib/utils";
 
 const FREE_SHIPPING_THRESHOLD = 25000;
-const SHIPPING_FLAT = 500;
+const SHIPPING_FLAT = 400; // CityPak island-wide express
 
 // Full cart page: line items on the left, order summary panel on the right —
 // matching the design.
 export function CartView() {
-  const { items, setQty, remove, subtotal } = useCart();
+  const { items, setQty, remove, subtotal, discountAmount, applyDiscount, clearDiscount } = useCart();
   const [code, setCode] = useState("");
-  const [discount, setDiscount] = useState(0);
   const [message, setMessage] = useState<string | null>(null);
   const [applying, setApplying] = useState(false);
 
   const sub = subtotal();
+  const discount = discountAmount;
   const shipping = sub >= FREE_SHIPPING_THRESHOLD || sub === 0 ? 0 : SHIPPING_FLAT;
   const total = Math.max(0, sub - discount) + shipping;
   const koko = Math.round(total / 3);
@@ -34,7 +34,9 @@ export function CartView() {
         body: JSON.stringify({ code, subtotal: sub }),
       });
       const data = await res.json();
-      setDiscount(data.valid ? data.amount : 0);
+      // Persist to the store so the discount carries through to checkout.
+      if (data.valid) applyDiscount(code.trim().toUpperCase(), data.amount);
+      else clearDiscount();
       setMessage(data.message);
     } catch {
       setMessage("Couldn't check that code. Try again.");
