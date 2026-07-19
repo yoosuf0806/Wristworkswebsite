@@ -18,7 +18,7 @@ export function RecentlyViewed() {
   if (items.length < 2) return null;
 
   return (
-    <section className="border-t border-line px-6 py-14 md:px-12">
+    <section className="mx-auto max-w-[1240px] border-t border-line px-6 py-14 md:px-12">
       <div className="eyebrow mb-6">You recently viewed</div>
       <div className="no-scrollbar flex gap-6 overflow-x-auto">
         {items.map((item) => (

@@ -67,8 +67,9 @@ export default async function ShopPage({
         />
       </div>
 
-      {/* SEO block + internal-link chips */}
-      <section className="border-t border-line px-6 py-16 md:px-12">
+      {/* SEO block + internal-link chips — centered in the same 1240px column
+          as the FAQ below so the two align. */}
+      <section className="mx-auto max-w-[1240px] border-t border-line px-6 py-16 md:px-12">
         <h2 className="font-serif text-[clamp(24px,3vw,34px)] font-normal leading-[1.2]">
           Genuine watches in Sri Lanka, delivered island-wide
         </h2>
