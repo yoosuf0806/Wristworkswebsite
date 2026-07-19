@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { getPageSeo } from "@/lib/data/pageSeo";
+import { getGlobalFaqs } from "@/lib/data/faqs";
 import { BreadcrumbSchema, LocalBusinessSchema } from "@/components/seo/schemas";
 import { ContactForm } from "@/components/contact/ContactForm";
+import { FaqSection } from "@/components/shop/FaqSection";
 import { whatsappLink, siteConfig } from "@/lib/seo/siteConfig";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -15,7 +17,8 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const faqs = await getGlobalFaqs();
   const crumbs = [
     { name: "Home", path: "/" },
     { name: "Contact", path: "/contact" },
@@ -26,7 +29,9 @@ export default function ContactPage() {
       <BreadcrumbSchema crumbs={crumbs} />
       <LocalBusinessSchema />
 
-      <section className="grid grid-cols-1 gap-16 px-6 py-24 md:grid-cols-2 md:gap-20 md:px-12">
+      {/* Centered in the same max-width column as the FAQ below so the two
+          share consistent left/right margins. */}
+      <section className="mx-auto grid max-w-[1240px] grid-cols-1 gap-16 px-6 py-24 md:grid-cols-2 md:gap-20 md:px-12">
         {/* Left: heading + contact details */}
         <div>
           <div className="eyebrow mb-8">Contact</div>
@@ -70,6 +75,9 @@ export default function ContactPage() {
           <ContactForm />
         </div>
       </section>
+
+      {/* FAQ */}
+      <FaqSection faqs={faqs} heading="Before you message us" />
     </>
   );
 }
