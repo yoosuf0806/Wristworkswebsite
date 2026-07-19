@@ -100,6 +100,8 @@ export interface CartItem {
   image: string;
   imageAlt: string;
   price: number; // unit price actually charged (offer if present)
+  originalPrice?: number | null; // pre-discount unit price, for the strikethrough
+  reference?: string | null;
   qty: number;
 }
 

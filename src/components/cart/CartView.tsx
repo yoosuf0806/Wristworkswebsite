@@ -5,12 +5,12 @@ import Link from "next/link";
 import { useState } from "react";
 import { useCart } from "@/lib/cart/cartStore";
 import { formatPrice } from "@/lib/utils";
-import { Button } from "@/components/ui/Button";
 
 const FREE_SHIPPING_THRESHOLD = 25000;
 const SHIPPING_FLAT = 500;
 
-// Full cart UI: line items, quantity controls, discount code, order summary.
+// Full cart page: line items on the left, order summary panel on the right —
+// matching the design.
 export function CartView() {
   const { items, setQty, remove, subtotal } = useCart();
   const [code, setCode] = useState("");
@@ -21,6 +21,7 @@ export function CartView() {
   const sub = subtotal();
   const shipping = sub >= FREE_SHIPPING_THRESHOLD || sub === 0 ? 0 : SHIPPING_FLAT;
   const total = Math.max(0, sub - discount) + shipping;
+  const koko = Math.round(total / 3);
 
   const applyCode = async () => {
     if (!code.trim()) return;
@@ -46,93 +47,115 @@ export function CartView() {
     return (
       <div className="py-16 text-center">
         <p className="text-muted2">Your cart is empty.</p>
-        <div className="mt-6">
-          <Button href="/shop" variant="outline">Browse watches</Button>
-        </div>
+        <Link href="/shop" className="mt-6 inline-block border border-line2 px-8 py-4 text-[11.5px] uppercase tracking-[.16em] hover:border-white">
+          Browse watches
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 gap-12 md:grid-cols-[1.6fr_1fr]">
+    <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.6fr_1fr] lg:gap-16">
       {/* Line items */}
-      <div className="divide-y divide-line border-y border-line">
-        {items.map((item) => (
-          <div key={item.productId} className="flex gap-5 py-6">
-            <Link href={`/products/${item.slug}`} className="relative h-24 w-24 flex-none overflow-hidden bg-[#e9e8e5]">
-              {item.image && <Image src={item.image} alt={item.imageAlt} fill className="object-cover" sizes="96px" />}
-            </Link>
-            <div className="flex flex-1 flex-col justify-between">
-              <div>
-                <div className="text-[10.5px] uppercase tracking-[.2em] text-muted">{item.brand}</div>
-                <Link href={`/products/${item.slug}`} className="text-[15px] font-medium hover:text-white">
+      <div>
+        <div className="border-t border-line">
+          {items.map((item) => (
+            <div key={item.productId} className="flex flex-wrap items-center gap-6 border-b border-line py-8">
+              <Link href={`/products/${item.slug}`} className="relative h-28 w-28 flex-none overflow-hidden bg-[#e9e8e5]">
+                {item.image && <Image src={item.image} alt={item.imageAlt} fill className="object-cover" sizes="112px" />}
+              </Link>
+
+              <div className="min-w-[160px] flex-1">
+                <div className="text-[10.5px] uppercase tracking-[.22em] text-muted">{item.brand}</div>
+                <Link href={`/products/${item.slug}`} className="mt-1 block text-[18px] font-medium leading-tight hover:text-white">
                   {item.name}
                 </Link>
+                {item.reference && (
+                  <div className="mt-1.5 text-[12px] uppercase tracking-[.12em] text-muted">Ref. {item.reference}</div>
+                )}
               </div>
-              <div className="flex items-center gap-4">
-                <div className="flex items-center border border-line2">
-                  <button onClick={() => setQty(item.productId, item.qty - 1)} className="px-3 py-1 text-muted hover:text-white">−</button>
-                  <span className="w-8 text-center text-sm">{item.qty}</span>
-                  <button onClick={() => setQty(item.productId, item.qty + 1)} className="px-3 py-1 text-muted hover:text-white">+</button>
-                </div>
-                <button onClick={() => remove(item.productId)} className="text-[11px] uppercase tracking-[.14em] text-muted hover:text-white">
-                  Remove
-                </button>
+
+              {/* Quantity */}
+              <div className="flex flex-none items-center border border-line2">
+                <button onClick={() => setQty(item.productId, item.qty - 1)} className="px-4 py-3 text-lg text-muted hover:text-white" aria-label="Decrease quantity">−</button>
+                <span className="w-8 text-center text-sm">{item.qty}</span>
+                <button onClick={() => setQty(item.productId, item.qty + 1)} className="px-4 py-3 text-lg text-muted hover:text-white" aria-label="Increase quantity">+</button>
               </div>
+
+              {/* Price */}
+              <div className="flex-none text-right">
+                <div className="text-[17px] font-bold">{formatPrice(item.price * item.qty)}</div>
+                {item.originalPrice && item.originalPrice > item.price && (
+                  <div className="text-[13px] text-[#666] line-through">{formatPrice(item.originalPrice * item.qty)}</div>
+                )}
+              </div>
+
+              {/* Remove */}
+              <button onClick={() => remove(item.productId)} aria-label="Remove item" className="flex-none px-1 text-xl text-muted hover:text-white">
+                ×
+              </button>
             </div>
-            <div className="text-[15px] font-bold">{formatPrice(item.price * item.qty)}</div>
-          </div>
-        ))}
+          ))}
+        </div>
+
+        <Link href="/shop" className="mt-8 inline-block border-b border-line2 pb-1 text-[11.5px] uppercase tracking-[.18em] text-muted2 hover:text-white">
+          ← Continue shopping
+        </Link>
       </div>
 
-      {/* Summary */}
-      <div className="h-fit border border-line bg-card p-7">
-        <h2 className="mb-5 font-serif text-[22px]">Order summary</h2>
+      {/* Order summary */}
+      <div className="h-fit border border-line bg-card p-8">
+        <h2 className="mb-7 text-[13px] uppercase tracking-[.2em] text-muted">Order summary</h2>
 
-        <div className="mb-5">
-          <div className="mb-2 text-[11px] uppercase tracking-[.2em] text-muted">Discount code</div>
-          <div className="flex gap-2">
-            <input
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              placeholder="WELCOME10"
-              className="flex-1 border border-line2 bg-black px-3 py-2 text-sm uppercase text-white outline-none"
-            />
-            <button onClick={applyCode} disabled={applying} className="border border-line2 px-4 text-[11px] uppercase tracking-[.14em] hover:border-white disabled:opacity-50">
-              {applying ? "…" : "Apply"}
-            </button>
+        <div className="space-y-4 text-[15px]">
+          <div className="flex justify-between text-muted2">
+            <span>Subtotal</span>
+            <span className="text-white">{formatPrice(sub)}</span>
           </div>
-          {message && <p className="mt-2 text-[12px] text-muted2">{message}</p>}
-        </div>
-
-        <div className="space-y-3 border-t border-line pt-5 text-[14px]">
-          <Row label="Subtotal" value={formatPrice(sub)} />
-          {discount > 0 && <Row label="Discount" value={`− ${formatPrice(discount)}`} />}
-          <Row label="Shipping" value={shipping === 0 ? "Free" : formatPrice(shipping)} />
-          <div className="flex justify-between border-t border-line pt-4 text-[17px] font-bold">
-            <span>Total</span>
-            <span>{formatPrice(total)}</span>
+          {discount > 0 && (
+            <div className="flex justify-between text-muted2">
+              <span>Discount</span>
+              <span className="text-white">− {formatPrice(discount)}</span>
+            </div>
+          )}
+          <div className="flex justify-between text-muted2">
+            <span>Delivery</span>
+            <span className="text-white">{shipping === 0 ? "Free" : formatPrice(shipping)}</span>
           </div>
         </div>
 
-        <div className="mt-6">
-          <Button href="/checkout" variant="solid" className="w-full">Proceed to checkout</Button>
+        <div className="mt-6 flex items-center justify-between border-t border-line pt-6">
+          <span className="text-[22px] font-bold">Total</span>
+          <span className="text-[24px] font-bold">{formatPrice(total)}</span>
         </div>
-        {sub < FREE_SHIPPING_THRESHOLD && (
-          <p className="mt-3 text-center text-[12px] text-muted">
-            Add {formatPrice(FREE_SHIPPING_THRESHOLD - sub)} more for free delivery.
-          </p>
-        )}
+        <p className="mt-2 text-[13px] text-muted2">
+          or 3 × {formatPrice(koko)} with <span className="font-semibold text-white">Koko</span>
+        </p>
+
+        {/* Discount code */}
+        <div className="mt-7 flex gap-3">
+          <input
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            placeholder="Discount code"
+            className="min-w-0 flex-1 border border-line2 bg-transparent px-4 py-3 text-[13px] uppercase tracking-[.1em] text-white outline-none placeholder:text-muted focus:border-white"
+          />
+          <button
+            onClick={applyCode}
+            disabled={applying}
+            className="flex-none border border-line2 px-6 text-[11.5px] font-semibold uppercase tracking-[.16em] hover:border-white disabled:opacity-50"
+          >
+            {applying ? "…" : "Apply"}
+          </button>
+        </div>
+        {message && <p className="mt-2 text-[12px] text-muted2">{message}</p>}
+
+        <Link href="/checkout" className="mt-7 block bg-white py-4 text-center text-[12px] font-semibold uppercase tracking-[.2em] text-black transition-colors hover:bg-[#ccc]">
+          Checkout
+        </Link>
+
+        <p className="mt-5 text-center text-[12.5px] text-muted">Koko · Visa · Mastercard · Cash on delivery</p>
       </div>
-    </div>
-  );
-}
-
-function Row({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex justify-between text-muted2">
-      <span>{label}</span>
-      <span className="text-white">{value}</span>
     </div>
   );
 }

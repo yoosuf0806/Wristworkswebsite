@@ -35,6 +35,8 @@ export function ProductStickyBar({ product }: { product: Product }) {
       image: product.images[0]?.url ?? "",
       imageAlt: product.images[0]?.alt ?? product.name,
       price,
+      originalPrice: product.offerPrice ? product.price : null,
+      reference: product.reference,
     });
 
   return (

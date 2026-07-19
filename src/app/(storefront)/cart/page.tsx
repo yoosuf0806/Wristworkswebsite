@@ -12,8 +12,8 @@ export const metadata: Metadata = buildMetadata({
 
 export default function CartPage() {
   return (
-    <div className="mx-auto max-w-[1100px] px-6 py-14 md:px-12">
-      <h1 className="mb-10 font-serif text-[clamp(30px,4vw,44px)] font-normal">Your Cart</h1>
+    <div className="mx-auto max-w-[1320px] px-6 py-16 md:px-12">
+      <h1 className="mb-12 font-serif text-[clamp(36px,5vw,60px)] font-normal">Your Cart</h1>
       <CartView />
     </div>
   );
