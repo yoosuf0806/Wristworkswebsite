@@ -15,7 +15,14 @@ export const catalogProducts: Product[] = [
     ],
     "reference": "GA-2100-1A1",
     "description": "The GA-2100 pairs Casio's Carbon Core Guard case with a slim octagonal bezel — the 'CasiOak' silhouette that put G-Shock on every wrist. Analog-digital display, 200m water resistance and shock resistance in a package under 12mm thick.",
-    "specs": null,
+    "specs": {
+      "Movement": "Analog-digital quartz",
+      "Case": "Carbon Core Guard, 45.4mm",
+      "Water resistance": "200m",
+      "Battery": "CR2016, ~3 years",
+      "Strap": "Resin band",
+      "Features": "World time, stopwatch, LED backlight"
+    },
     "price": 64500,
     "offerPrice": 51500,
     "stock": 12,
@@ -58,7 +65,14 @@ export const catalogProducts: Product[] = [
     ],
     "reference": "A168WA-1",
     "description": "The same stainless case your father wore, still under Rs. 20,000. Seven-year battery, LED backlight, and a bracelet that goes with everything from denim to a dinner jacket.",
-    "specs": null,
+    "specs": {
+      "Movement": "Digital quartz",
+      "Case": "Stainless steel, 38mm",
+      "Water resistance": "50m",
+      "Battery": "~7 years",
+      "Strap": "Stainless steel bracelet",
+      "Features": "LED backlight, stopwatch, alarm"
+    },
     "price": 18500,
     "offerPrice": 14800,
     "stock": 25,
@@ -99,7 +113,13 @@ export const catalogProducts: Product[] = [
     ],
     "reference": "AE-1200WHD-1A",
     "description": "The 'Casio Royale' — a world-time digital with a stainless bracelet, five daily alarms and a look that punches far above its price. Endlessly wearable, impossible to date.",
-    "specs": null,
+    "specs": {
+      "Movement": "Digital quartz",
+      "Case": "Resin/steel, 45mm",
+      "Water resistance": "100m",
+      "Strap": "Stainless steel bracelet",
+      "Features": "World time, 5 alarms, countdown"
+    },
     "price": 21500,
     "offerPrice": 18200,
     "stock": 18,
@@ -143,7 +163,13 @@ export const catalogProducts: Product[] = [
     ],
     "reference": "MDV-106-1A",
     "description": "The 'Duro' — Casio's 200m diver on a steel bracelet with a Submariner-style dial and a price that makes it the best value in dive watches. A genuine tool watch.",
-    "specs": null,
+    "specs": {
+      "Movement": "Analog quartz",
+      "Case": "Stainless steel, 44mm",
+      "Water resistance": "200m",
+      "Bezel": "Unidirectional dive bezel",
+      "Strap": "Stainless steel bracelet"
+    },
     "price": 32500,
     "offerPrice": null,
     "stock": 10,
@@ -184,7 +210,13 @@ export const catalogProducts: Product[] = [
     ],
     "reference": "MTP-1375D-1AV",
     "description": "A clean, slim dress analog with a sunburst dial and date window — the easiest way to smarten up a shirt without spending a fortune.",
-    "specs": null,
+    "specs": {
+      "Movement": "Analog quartz",
+      "Case": "Stainless steel, 40mm",
+      "Water resistance": "50m",
+      "Dial": "White sunburst, date",
+      "Strap": "Stainless steel bracelet"
+    },
     "price": 24500,
     "offerPrice": 19900,
     "stock": 15,
@@ -225,7 +257,13 @@ export const catalogProducts: Product[] = [
     ],
     "reference": "CA-53W-1",
     "description": "The original calculator watch. Retro resin case, working databank calculator and the geek-chic charm that never really left. As worn on screen and off.",
-    "specs": null,
+    "specs": {
+      "Movement": "Digital quartz",
+      "Case": "Resin, 34.4mm",
+      "Water resistance": "Splash resistant",
+      "Strap": "Resin band",
+      "Features": "Calculator, dual time, alarm"
+    },
     "price": 16800,
     "offerPrice": null,
     "stock": 20,
@@ -268,7 +306,13 @@ export const catalogProducts: Product[] = [
     ],
     "reference": "BGA-280-4A",
     "description": "A slim ana-digi Baby-G in a soft tonal colourway — shock resistant, 100m water resistant, and sized for smaller wrists. World time, stopwatch and the toughness Baby-G is known for.",
-    "specs": null,
+    "specs": {
+      "Movement": "Analog-digital quartz",
+      "Case": "Resin, 41mm",
+      "Water resistance": "100m",
+      "Strap": "Resin band",
+      "Features": "World time, stopwatch, LED light"
+    },
     "price": 48500,
     "offerPrice": 38800,
     "stock": 0,
@@ -310,7 +354,13 @@ export const catalogProducts: Product[] = [
     ],
     "reference": "EFV-100D-2AV",
     "description": "Edifice motorsport DNA in a slim steel chronograph — three sub-dials, a tachymeter bezel and a blue sunburst dial that catches the light.",
-    "specs": null,
+    "specs": {
+      "Movement": "Analog quartz chronograph",
+      "Case": "Stainless steel, 43mm",
+      "Water resistance": "100m",
+      "Dial": "Blue sunburst, tachymeter",
+      "Strap": "Stainless steel bracelet"
+    },
     "price": 42500,
     "offerPrice": null,
     "stock": 8,
@@ -353,7 +403,13 @@ export const catalogProducts: Product[] = [
     ],
     "reference": "ECB-2000D-1A",
     "description": "Edifice's Bluetooth chronograph links to your phone for world time across 300+ cities, with Tough Solar power and a carbon-look dial.",
-    "specs": null,
+    "specs": {
+      "Movement": "Tough Solar, Bluetooth",
+      "Case": "Resin/steel, 46mm",
+      "Water resistance": "100m",
+      "Strap": "Stainless steel bracelet",
+      "Features": "World time (300+ cities), chronograph"
+    },
     "price": 108000,
     "offerPrice": 96500,
     "stock": 6,
@@ -395,9 +451,17 @@ export const catalogProducts: Product[] = [
       "mens-watches",
       "analog-watches"
     ],
-    "reference": "SRPD55K3",
+    "reference": "SRPD55K1",
     "description": "The SRPD55 carries the 5 Sports line's SKX heritage — a black sunburst dial, day-date at three, and LumiBrite hands that stay legible long after sunset. The 4R36 automatic hand-winds and hacks, and the 100m rating handles a swim without a second thought.",
-    "specs": null,
+    "specs": {
+      "Movement": "Seiko 4R36, 24 jewels, 41h reserve",
+      "Case": "Stainless steel, 42.5mm × 13.4mm",
+      "Crystal": "Hardlex",
+      "Dial": "Black sunburst, day-date",
+      "Water resistance": "100m",
+      "Strap": "Stainless steel bracelet",
+      "Lume": "LumiBrite hands & indices"
+    },
     "price": 118000,
     "offerPrice": 94500,
     "stock": 6,
@@ -440,7 +504,14 @@ export const catalogProducts: Product[] = [
     ],
     "reference": "SRPB43J1",
     "description": "Seiko's Presage Cocktail Time turns a bar in Ginza into a dial. Hand-finished sunburst blue, 4R35 movement, and a presence far beyond its price. Our pick for a first proper automatic.",
-    "specs": null,
+    "specs": {
+      "Movement": "Seiko 4R35 automatic, 41h reserve",
+      "Case": "Stainless steel, 40.5mm",
+      "Crystal": "Box-shaped Hardlex",
+      "Dial": "Blue sunburst",
+      "Water resistance": "50m",
+      "Strap": "Leather strap"
+    },
     "price": 168000,
     "offerPrice": null,
     "stock": 3,
@@ -483,7 +554,14 @@ export const catalogProducts: Product[] = [
     ],
     "reference": "SRPE93K1",
     "description": "The cushion-cased 'Turtle' is a modern dive icon — 200m rated, day-date, and lume you could read from across the room. 4R36 automatic with hacking and hand-winding.",
-    "specs": null,
+    "specs": {
+      "Movement": "Seiko 4R36 automatic",
+      "Case": "Stainless steel, 45mm cushion",
+      "Water resistance": "200m",
+      "Bezel": "Unidirectional dive bezel",
+      "Strap": "Silicone strap",
+      "Lume": "LumiBrite"
+    },
     "price": 152000,
     "offerPrice": 129000,
     "stock": 5,
@@ -526,7 +604,13 @@ export const catalogProducts: Product[] = [
     ],
     "reference": "SUR497P1",
     "description": "A gold-tone quartz dress watch with a crisp white dial — understated, sharp, and ready for anything from the office to a wedding.",
-    "specs": null,
+    "specs": {
+      "Movement": "Analog quartz",
+      "Case": "Gold-tone steel, 40mm",
+      "Water resistance": "50m",
+      "Dial": "White",
+      "Strap": "Gold-tone bracelet"
+    },
     "price": 78500,
     "offerPrice": 66900,
     "stock": 9,
@@ -566,7 +650,13 @@ export const catalogProducts: Product[] = [
     ],
     "reference": "BM8180-03E",
     "description": "A do-everything field watch powered by light — never needs a battery. Green dial, 37mm case and a canvas strap that suits jeans as easily as chinos. Citizen's Eco-Drive runs for months on a full charge.",
-    "specs": null,
+    "specs": {
+      "Movement": "Citizen Eco-Drive (light powered)",
+      "Case": "Stainless steel, 37mm",
+      "Water resistance": "100m",
+      "Power reserve": "180 days",
+      "Strap": "Nylon/canvas strap"
+    },
     "price": 56500,
     "offerPrice": 47900,
     "stock": 9,
@@ -609,7 +699,13 @@ export const catalogProducts: Product[] = [
     ],
     "reference": "BN0150-28E",
     "description": "The Promaster diver — 200m rated, ISO-certified, Eco-Drive powered. A serious dive tool that never needs a battery.",
-    "specs": null,
+    "specs": {
+      "Movement": "Citizen Eco-Drive (light powered)",
+      "Case": "Stainless steel, 44mm",
+      "Water resistance": "200m (ISO diver)",
+      "Bezel": "Unidirectional dive bezel",
+      "Strap": "Polyurethane strap"
+    },
     "price": 98500,
     "offerPrice": 82500,
     "stock": 0,
@@ -652,7 +748,13 @@ export const catalogProducts: Product[] = [
     ],
     "reference": "NJ0150-81X",
     "description": "Citizen's answer to the integrated-bracelet sports watch. A sunray blue dial, faceted indices and an automatic movement visible through the display back — presence far above its price.",
-    "specs": null,
+    "specs": {
+      "Movement": "Citizen 8210 automatic",
+      "Case": "Stainless steel, 40mm",
+      "Water resistance": "50m",
+      "Dial": "Blue sunray",
+      "Strap": "Integrated stainless steel bracelet"
+    },
     "price": 112000,
     "offerPrice": null,
     "stock": 4,
@@ -695,7 +797,13 @@ export const catalogProducts: Product[] = [
     ],
     "reference": "EW5551-56D",
     "description": "The L Ambiluna — a refined two-tone Eco-Drive for the wrist that likes a little shimmer. Light powered, mother-of-pearl accents, everyday elegance.",
-    "specs": null,
+    "specs": {
+      "Movement": "Citizen Eco-Drive (light powered)",
+      "Case": "Two-tone steel, 33mm",
+      "Water resistance": "50m",
+      "Dial": "Mother-of-pearl",
+      "Strap": "Two-tone bracelet"
+    },
     "price": 89500,
     "offerPrice": 74500,
     "stock": 7,

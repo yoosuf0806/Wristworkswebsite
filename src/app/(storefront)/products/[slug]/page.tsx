@@ -12,6 +12,7 @@ import { getFaqsFor } from "@/lib/data/faqs";
 import { Gallery } from "@/components/product/Gallery";
 import { AddToCart } from "@/components/product/AddToCart";
 import { RecordView } from "@/components/product/RecordView";
+import { ProductStickyBar } from "@/components/product/ProductStickyBar";
 import { Reviews } from "@/components/product/Reviews";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { Accordion } from "@/components/ui/Accordion";
@@ -19,7 +20,7 @@ import { Rating } from "@/components/ui/Rating";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { FaqSection } from "@/components/shop/FaqSection";
 import { ProductSchema, BreadcrumbSchema } from "@/components/seo/schemas";
-import { formatPrice, discountPercent } from "@/lib/utils";
+import { formatPrice } from "@/lib/utils";
 
 // Pre-render every product page at build time.
 export async function generateStaticParams() {
@@ -77,6 +78,25 @@ export default async function ProductPage({ params }: { params: { slug: string }
     ? Object.entries(product.specs).map(([k, v]) => `${k}: ${v}`).join("\n")
     : "";
 
+  // Product subtitle: "Ref. X · Men's · 42.5mm".
+  const gender = product.categories.includes("womens-watches")
+    ? "Women's"
+    : product.categories.includes("unisex-watches")
+      ? "Unisex"
+      : "Men's";
+  const caseSize = product.specs?.Case?.match(/(\d+(?:\.\d+)?mm)/)?.[1];
+  const subtitle = [product.reference && `Ref. ${product.reference}`, gender, caseSize]
+    .filter(Boolean)
+    .join(" · ");
+
+  // 2×2 highlight spec grid — pick the four most useful facts available.
+  const specEntries = product.specs || {};
+  const gridKeys = ["Movement", "Water resistance", "Case", "Strap", "Bracelet", "Battery", "Bezel", "Dial"];
+  const specGrid = gridKeys.filter((k) => specEntries[k]).slice(0, 4).map((k) => [k, specEntries[k]] as const);
+
+  const koko = Math.round(price / 3);
+  const savings = onSale ? product.price - price : 0;
+
   const accordionItems = [
     { q: "Description", a: product.description },
     ...(specItems ? [{ q: "Full specifications", a: specItems }] : []),
@@ -100,37 +120,47 @@ export default async function ProductPage({ params }: { params: { slug: string }
         <Gallery images={product.images} name={product.name} />
 
         <div>
-          <div className="text-[11px] uppercase tracking-[.22em] text-muted">{product.brand}</div>
+          <div className="text-[11px] uppercase tracking-[.22em] text-muted">
+            {product.brand}
+            {product.newArrival && <span> · New Arrival</span>}
+          </div>
           <h1 className="mt-3 font-serif text-[clamp(28px,4vw,44px)] font-normal leading-[1.15]">
             {product.name}
           </h1>
-          {product.reference && (
-            <div className="mt-2 text-[12px] uppercase tracking-[.14em] text-muted">
-              Ref. {product.reference}
-            </div>
-          )}
+          {subtitle && <div className="mt-3 text-[12.5px] text-muted">{subtitle}</div>}
 
           {agg.count > 0 && <Rating value={agg.average} count={agg.count} className="mt-4" />}
 
-          <div className="mt-6 flex items-baseline gap-4">
-            <span className="text-[28px] font-bold">{formatPrice(price)}</span>
+          {/* Price + savings */}
+          <div className="mt-6 flex flex-wrap items-baseline gap-4">
+            <span className="text-[32px] font-bold">{formatPrice(price)}</span>
             {onSale && (
               <>
-                <span className="text-[16px] text-[#666] line-through">{formatPrice(product.price)}</span>
-                <span className="bg-white px-[9px] py-[5px] text-[10.5px] font-bold uppercase tracking-[.1em] text-black">
-                  Save {discountPercent(product.price, product.offerPrice)}%
+                <span className="text-[17px] text-[#666] line-through">{formatPrice(product.price)}</span>
+                <span className="bg-white px-3 py-[6px] text-[10.5px] font-bold uppercase tracking-[.1em] text-black">
+                  Save {formatPrice(savings)}
                 </span>
               </>
             )}
           </div>
-
-          <div className="mt-3 text-[12.5px] text-muted2">
-            {product.stock > 0 ? (
-              <span className="text-whatsapp">● In stock — ships from Colombo within 24 hours</span>
-            ) : (
-              <span className="text-[#c88]">Out of stock — message us to reserve</span>
-            )}
+          <div className="mt-2 text-[13px] text-muted2">
+            or 3 × {formatPrice(koko)} with <span className="font-semibold text-white">Koko</span> — 0% interest
           </div>
+
+          {/* 2×2 highlight spec grid */}
+          {specGrid.length > 0 && (
+            <div className="mt-8 grid grid-cols-2 border border-line">
+              {specGrid.map(([k, v], i) => (
+                <div
+                  key={k}
+                  className={`p-5 ${i % 2 === 0 ? "border-r border-line" : ""} ${i < 2 ? "border-b border-line" : ""}`}
+                >
+                  <div className="text-[10.5px] uppercase tracking-[.16em] text-muted">{k}</div>
+                  <div className="mt-2 text-[14px] text-white">{v}</div>
+                </div>
+              ))}
+            </div>
+          )}
 
           <AddToCart product={product} />
 
@@ -165,6 +195,9 @@ export default async function ProductPage({ params }: { params: { slug: string }
           </div>
         </section>
       )}
+
+      {/* Product-page quick-add sticky bar */}
+      <ProductStickyBar product={product} />
     </>
   );
 }

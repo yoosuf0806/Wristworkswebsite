@@ -1,6 +1,7 @@
 import { SiteNav } from "@/components/layout/SiteNav";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { CartBar } from "@/components/cart/CartBar";
+import { CartDrawer } from "@/components/cart/CartDrawer";
 
 // Storefront chrome: promo bar, sticky nav and footer. Wraps every customer-
 // facing page. Admin routes live outside this group and don't render it.
@@ -16,6 +17,7 @@ export default function StorefrontLayout({ children }: { children: React.ReactNo
       <main>{children}</main>
       <SiteFooter />
       <CartBar />
+      <CartDrawer />
     </>
   );
 }
