@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { getPageSeo } from "@/lib/data/pageSeo";
-import { getGlobalFaqs } from "@/lib/data/faqs";
-import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { BreadcrumbSchema, LocalBusinessSchema } from "@/components/seo/schemas";
-import { FaqSection } from "@/components/shop/FaqSection";
+import { ContactForm } from "@/components/contact/ContactForm";
 import { whatsappLink, siteConfig } from "@/lib/seo/siteConfig";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -17,8 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-export default async function ContactPage() {
-  const faqs = await getGlobalFaqs();
+export default function ContactPage() {
   const crumbs = [
     { name: "Home", path: "/" },
     { name: "Contact", path: "/contact" },
@@ -29,35 +26,50 @@ export default async function ContactPage() {
       <BreadcrumbSchema crumbs={crumbs} />
       <LocalBusinessSchema />
 
-      <div className="px-6 pt-10 md:px-12">
-        <Breadcrumbs crumbs={crumbs} />
-        <div className="eyebrow mt-6">Get in touch</div>
-        <h1 className="mt-3 font-serif text-[clamp(34px,5vw,56px)] font-normal">We&apos;re here to help.</h1>
-        <p className="mt-4 max-w-[560px] text-[15px] leading-[1.8] text-muted2">
-          The fastest way to reach us is WhatsApp — we&apos;ll happily send live photos and answer any
-          question before you buy.
-        </p>
-      </div>
+      <section className="grid grid-cols-1 gap-16 px-6 py-24 md:grid-cols-2 md:gap-20 md:px-12">
+        {/* Left: heading + contact details */}
+        <div>
+          <div className="eyebrow mb-8">Contact</div>
+          <h1 className="font-serif text-[clamp(40px,5.5vw,68px)] font-normal leading-[1.05]">
+            We answer fast — usually on WhatsApp.
+          </h1>
 
-      <div className="grid grid-cols-1 gap-px border-y border-line bg-line md:grid-cols-3">
-        <div className="bg-black px-8 py-12">
-          <div className="eyebrow mb-3">WhatsApp</div>
-          <a href={whatsappLink()} className="text-[18px] text-whatsapp">{siteConfig.contact.phoneDisplay}</a>
-          <p className="mt-3 text-[13px] text-muted">Fastest response · {siteConfig.contact.hours}</p>
+          <div className="mt-16 space-y-10">
+            <div>
+              <div className="text-[12px] uppercase tracking-[.2em] text-muted">WhatsApp</div>
+              <a href={whatsappLink()} className="mt-3 block text-[20px] text-whatsapp">
+                {siteConfig.contact.phoneDisplay} →
+              </a>
+              <p className="mt-2 text-[14px] text-muted2">Fastest — live photos, stock checks, order tracking</p>
+            </div>
+            <div>
+              <div className="text-[12px] uppercase tracking-[.2em] text-muted">Email</div>
+              <a href={`mailto:${siteConfig.contact.email}`} className="mt-3 block text-[18px] text-white hover:text-muted2">
+                {siteConfig.contact.email}
+              </a>
+            </div>
+            <div>
+              <div className="text-[12px] uppercase tracking-[.2em] text-muted">Hours</div>
+              <div className="mt-3 text-[16px] leading-[1.7] text-white">
+                Monday – Saturday · 9am – 6pm
+                <br />
+                Colombo, Sri Lanka
+              </div>
+            </div>
+            <div>
+              <div className="text-[12px] uppercase tracking-[.2em] text-muted">Instagram</div>
+              <a href={siteConfig.social.instagram} className="mt-3 block text-[18px] text-white hover:text-muted2">
+                @wristworks.lk
+              </a>
+            </div>
+          </div>
         </div>
-        <div className="bg-black px-8 py-12">
-          <div className="eyebrow mb-3">Email</div>
-          <a href={`mailto:${siteConfig.contact.email}`} className="text-[16px] text-white">{siteConfig.contact.email}</a>
-          <p className="mt-3 text-[13px] text-muted">We reply within one business day.</p>
-        </div>
-        <div className="bg-black px-8 py-12">
-          <div className="eyebrow mb-3">Location</div>
-          <div className="text-[16px] text-white">Colombo, Sri Lanka</div>
-          <p className="mt-3 text-[13px] text-muted">Online boutique · island-wide delivery</p>
-        </div>
-      </div>
 
-      <FaqSection faqs={faqs} heading="Before you message us" />
+        {/* Right: form */}
+        <div className="md:pt-4">
+          <ContactForm />
+        </div>
+      </section>
     </>
   );
 }
