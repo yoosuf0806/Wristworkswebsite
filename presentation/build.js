@@ -26,6 +26,19 @@ function pill(slide, text, x, y, w, h, fill, color) {
   slide.addText(text, { x, y, w, h, align:"center", valign:"middle", fontFace: HEAD, bold:true, fontSize: 13, color, charSpacing: 2, margin:0 });
 }
 
+// a real-photo tile: rounded photo (pre-rounded PNG) with shadow + overlay label pill
+function photoTile(slide, img, x, y, w, h, o={}) {
+  slide.addImage({ path: img, x, y, w, h,
+    shadow: { type:"outer", color:"1C1109", opacity:o.shadow??0.5, blur:14, offset:6, angle:90 } });
+  if (o.label) {
+    const lw = o.labelW ?? Math.min(w-0.2, 0.14*String(o.label).length + 0.5);
+    slide.addShape(p.ShapeType.roundRect, { x:x+(w-lw)/2, y:y+h-0.52, w:lw, h:0.4, rectRadius:0.2,
+      fill:{ color:o.labelFill??"1C1109" }, line:{type:"none"} });
+    slide.addText(o.label, { x:x+(w-lw)/2, y:y+h-0.52, w:lw, h:0.4, align:"center", valign:"middle",
+      fontFace:HEAD, bold:true, fontSize:o.labelSize??12, color:o.labelColor??"FDF6EC", charSpacing:1, margin:0 });
+  }
+}
+
 // a food "photo" tile: rounded frame + illustration + label
 function foodTile(slide, img, x, y, w, h, o={}) {
   const frameFill = o.fill ?? "FBF3E9";
@@ -67,12 +80,12 @@ So here's my question for the next few minutes: WHY did you choose that? That's 
   s.addText("You have 5 seconds. Pick one. 👆", { x:0.75, y:5.2, w:8.0, h:0.5, fontFace:BODY, fontSize:18, color:GOLD, margin:0 });
   s.addText("Presented by Nooha Iflal", { x:0.75, y:6.55, w:6, h:0.45, fontFace:BODY, fontSize:16, color:"C9AE97", margin:0 });
 
-  // 2x2 food tiles
+  // 2x2 real-photo tiles
   const tw=1.85, th=2.0, gx=0.22, gy=0.22, sx=9.3, sy=0.95;
-  foodTile(s, A("art_burger.png"), sx,      sy,      tw, th, { label:"BURGER" });
-  foodTile(s, A("art_pizza.png"),  sx+tw+gx, sy,     tw, th, { label:"PIZZA" });
-  foodTile(s, A("art_salad.png"),  sx,      sy+th+gy, tw, th, { label:"SALAD" });
-  foodTile(s, A("art_cake.png"),   sx+tw+gx, sy+th+gy, tw, th, { label:"DESSERT" });
+  photoTile(s, A("p1_burger.png"),  sx,       sy,       tw, th, { label:"BURGER",  labelFill:ORANGE, labelColor:ESPRESSO });
+  photoTile(s, A("p1_pizza.png"),   sx+tw+gx, sy,       tw, th, { label:"PIZZA",   labelFill:ORANGE, labelColor:ESPRESSO });
+  photoTile(s, A("p1_salad.png"),   sx,       sy+th+gy, tw, th, { label:"SALAD",   labelFill:ORANGE, labelColor:ESPRESSO });
+  photoTile(s, A("p1_dessert.png"), sx+tw+gx, sy+th+gy, tw, th, { label:"DESSERT", labelFill:ORANGE, labelColor:ESPRESSO });
   s.addText("Raise your hand ✋", { x:sx, y:sy+2*th+gy+0.12, w:2*tw+gx, h:0.5, align:"center", fontFace:BODY, italic:true, fontSize:16, color:CREAM, margin:0 });
 }
 
@@ -90,33 +103,35 @@ Here's what's wild: before you've tasted anything, your brain has already decide
   pill(s, "01 · PERCEPTION", 0.75, 0.6, 2.7, 0.5, INK, CREAM);
   s.addText([{ text:"YOUR EYES CHOOSE FIRST ", options:{color:INK} }, { text:"👀", options:{} }],
     { x:0.7, y:1.15, w:12, h:0.9, fontFace:HEAD, fontSize:40, bold:true, margin:0 });
-  s.addText("Which one looks tastier?", { x:0.72, y:2.05, w:9, h:0.6, fontFace:BODY, italic:true, fontSize:22, color:TOMATO, margin:0 });
+  s.addText("Which one looks tastier?", { x:0.72, y:2.02, w:9, h:0.55, fontFace:BODY, italic:true, fontSize:22, color:TOMATO, margin:0 });
 
-  const cy=2.8, ch=2.7, cw=4.35;
-  // plain
-  s.addShape(p.ShapeType.roundRect, { x:0.75, y:cy, w:cw, h:ch, rectRadius:0.18, fill:{color:"E4DACE"}, line:{type:"none"}, shadow:{type:"outer",color:"B79A7E",opacity:0.35,blur:10,offset:4,angle:90} });
-  s.addImage({ path:A("art_burger_plain.png"), x:1.0, y:cy+0.2, w:cw-0.5, h:ch-0.9, sizing:{type:"contain",w:cw-0.5,h:ch-0.9} });
-  pill(s, "PLAIN", 2.4, cy+ch-0.6, 1.05, 0.42, "9C8570", CREAM);
-  // plated
-  const px=5.45;
-  s.addShape(p.ShapeType.roundRect, { x:px, y:cy, w:cw, h:ch, rectRadius:0.18, fill:{color:"FBF1E4"}, line:{type:"none"}, shadow:{type:"outer",color:"7a3b1d",opacity:0.4,blur:18,offset:7,angle:90} });
-  s.addImage({ path:A("art_burger.png"), x:px+0.2, y:cy+0.2, w:cw-0.4, h:ch-0.9, sizing:{type:"contain",w:cw-0.4,h:ch-0.9} });
-  pill(s, "PLATED WITH LOVE", px+cw/2-1.2, cy+ch-0.6, 2.4, 0.42, ORANGE, ESPRESSO);
-  s.addShape(p.ShapeType.roundRect, { x:px+cw-1.0, y:cy+0.15, w:0.92, h:0.48, rectRadius:0.24, fill:{color:TOMATO}, line:{type:"none"} });
-  s.addText("WOW", { x:px+cw-1.0, y:cy+0.15, w:0.92, h:0.48, align:"center", valign:"middle", fontFace:HEAD, bold:true, fontSize:13, color:CREAM, margin:0 });
+  // two portrait photo tiles: plain vs plated (same burger, different presentation)
+  const cy=2.6, ch=3.1, cw=2.85;
+  photoTile(s, A("p2_plain.png"),  0.75, cy, cw, ch, { label:"PLAIN",            labelFill:"6E5E50", labelColor:CREAM, labelW:1.3 });
+  photoTile(s, A("p2_plated.png"), 3.8,  cy, cw, ch, { label:"PLATED WITH LOVE", labelFill:ORANGE,   labelColor:ESPRESSO, labelW:2.35 });
+  s.addShape(p.ShapeType.roundRect, { x:3.8+cw-0.98, y:cy+0.16, w:0.9, h:0.46, rectRadius:0.23, fill:{color:TOMATO}, line:{type:"none"} });
+  s.addText("WOW", { x:3.8+cw-0.98, y:cy+0.16, w:0.9, h:0.46, align:"center", valign:"middle", fontFace:HEAD, bold:true, fontSize:13, color:CREAM, margin:0 });
+
+  // middle callout between photos and flow
+  s.addText([
+    { text:"Same burger.\n", options:{ color:INK, bold:true } },
+    { text:"Same recipe.\n", options:{ color:INK, bold:true } },
+    { text:"One just got ", options:{ color:MUTED } },
+    { text:"dressed up.", options:{ color:TOMATO, bold:true, italic:true } },
+  ], { x:6.95, y:3.0, w:2.7, h:2.0, fontFace:BODY, fontSize:17, align:"left", margin:0, lineSpacingMultiple:1.05 });
 
   // flow icons SEE -> EXPECT -> CHOOSE
-  const fx=10.5, fw=2.15, fh=1.15;
+  const fx=9.85, fw=2.95, fh=1.12;
   const flow=[["icon_eye.png","SEE",ORANGE],["icon_brain.png","EXPECT",TOMATO],["icon_fork.png","CHOOSE",BROWN]];
   flow.forEach((f,i)=>{
-    const y=1.35+i*1.6;
+    const y=1.55+i*1.42;
     s.addShape(p.ShapeType.roundRect, { x:fx, y, w:fw, h:fh, rectRadius:0.16, fill:{color:"FFFFFF"}, line:{type:"none"}, shadow:{type:"outer",color:"D8C3AB",opacity:0.5,blur:8,offset:3,angle:90} });
-    s.addImage({ path:A(f[0]), x:fx+0.16, y:y+0.2, w:0.75, h:fh-0.4, sizing:{type:"contain",w:0.75,h:fh-0.4} });
-    s.addText(f[1], { x:fx+0.98, y, w:fw-1.1, h:fh, align:"left", valign:"middle", fontFace:HEAD, bold:true, fontSize:16, color:f[2], margin:0 });
-    if(i<2) s.addText("↓", { x:fx, y:y+fh-0.06, w:fw, h:0.5, align:"center", fontFace:HEAD, bold:true, fontSize:22, color:ORANGE, margin:0 });
+    s.addImage({ path:A(f[0]), x:fx+0.18, y:y+0.2, w:0.72, h:fh-0.4, sizing:{type:"contain",w:0.72,h:fh-0.4} });
+    s.addText(f[1], { x:fx+1.0, y, w:fw-1.1, h:fh, align:"left", valign:"middle", fontFace:HEAD, bold:true, fontSize:17, color:f[2], margin:0 });
+    if(i<2) s.addText("↓", { x:fx, y:y+fh-0.04, w:fw, h:0.4, align:"center", fontFace:HEAD, bold:true, fontSize:20, color:ORANGE, margin:0 });
   });
 
-  s.addText("We taste with our eyes long before the first bite.", { x:0.75, y:5.85, w:9.4, h:0.6, fontFace:BODY, fontSize:19, color:INK, margin:0 });
+  s.addText("We taste with our eyes long before the first bite.", { x:0.75, y:5.95, w:9.4, h:0.55, fontFace:BODY, fontSize:19, color:INK, margin:0 });
 }
 
 /* ============ SLIDE 3 — THE MENU ============ */
@@ -131,8 +146,8 @@ Here's what's wild: before you've tasted anything, your brain has already decide
 Here's the punchline: it might be the exact same burger. Same beef. All that changed was the words, the layout, and how it's presented. Descriptive language makes us expect more, so we happily pay more. So next time a menu makes your mouth water… know that the menu did that on purpose.`);
 
   pill(s, "02 · LANGUAGE", 0.75, 0.6, 2.5, 0.5, INK, CREAM);
-  s.addText([{ text:"THE MENU IS PLAYING TRICKS ON YOU ", options:{color:INK} }, { text:"📋", options:{} }],
-    { x:0.7, y:1.15, w:11.4, h:0.9, fontFace:HEAD, fontSize:34, bold:true, margin:0 });
+  s.addText([{ text:"IS THE MENU MANIPULATING YOU? ", options:{color:INK} }, { text:"📋", options:{} }],
+    { x:0.7, y:1.15, w:11.4, h:0.9, fontFace:HEAD, fontSize:37, bold:true, margin:0 });
 
   // Menu card
   const mx=0.75, my=2.2, mw=7.6, mh=4.55;
@@ -155,9 +170,9 @@ Here's the punchline: it might be the exact same burger. Same beef. All that cha
 
   // right column
   s.addText("Which one would you order?", { x:8.7, y:2.25, w:4.4, h:0.95, fontFace:HEAD, bold:true, fontSize:24, color:INK, margin:0 });
-  // hero burger illustration
-  s.addImage({ path:A("art_burger.png"), x:9.55, y:3.15, w:2.65, h:1.85, sizing:{type:"contain",w:2.65,h:1.85} });
-  s.addText("Same beef. Different words.", { x:8.7, y:5.02, w:4.4, h:0.45, align:"center", fontFace:BODY, italic:true, fontSize:16, color:TOMATO, margin:0 });
+  // hero burger photo
+  photoTile(s, A("p3_burger.png"), 9.35, 3.12, 2.85, 1.67, { shadow:0.45 });
+  s.addText("Same beef. Different words.", { x:8.7, y:5.0, w:4.4, h:0.45, align:"center", fontFace:BODY, italic:true, fontSize:16, color:TOMATO, margin:0 });
 
   s.addShape(p.ShapeType.roundRect, { x:8.7, y:5.55, w:4.4, h:1.2, rectRadius:0.16, fill:{color:BROWN}, line:{type:"none"}, shadow:{type:"outer",color:"7a3b1d",opacity:0.5,blur:12,offset:4,angle:90} });
   s.addText([
@@ -182,20 +197,20 @@ A certain smell, and suddenly you're eight years old in your grandmother's kitch
 Notice nobody ever says 'the one with the best nutrition label.' We remember who we ate it with. That feeling is doing a lot of the choosing for us.`);
 
   pill(s, "03 · EMOTION", 0.75, 0.6, 2.4, 0.5, CREAM, BROWN);
-  s.addText([{ text:"WHAT FOOD TAKES YOU BACK? ", options:{color:CREAM} }, { text:"❤️", options:{} }],
-    { x:0.7, y:1.18, w:12.4, h:0.9, fontFace:HEAD, fontSize:40, bold:true, margin:0 });
+  s.addText([{ text:"WHY DOES FOOD BRING BACK MEMORIES? ", options:{color:CREAM} }, { text:"❤️", options:{} }],
+    { x:0.7, y:1.18, w:12.4, h:0.9, fontFace:HEAD, fontSize:35, bold:true, margin:0 });
 
   const cards=[
-    ["art_family.png","Family meals"],
-    ["art_cookie.png","Childhood treats"],
-    ["art_bday.png","Celebrations"],
-    ["art_pot.png","Home cooking"],
-    ["art_coffee.png","Comfort in a cup"],
+    ["p4_curry.png","RICE & CURRY"],
+    ["p4_biryani.png","BIRYANI"],
+    ["p4_platter.png","FAMILY PLATTER"],
+    ["p4_pizza.png","PIZZA NIGHT"],
+    ["p4_butter.png","BUTTER CHICKEN"],
   ];
   const n=cards.length, gap=0.32, cw=2.12, startX=0.75, cy=2.35, ch=2.4;
   cards.forEach((c,i)=>{
     const x=startX+i*(cw+gap);
-    foodTile(s, A(c[0]), x, cy, cw, ch, { label:c[1], fill:"FFFFFF", shadow:0.5 });
+    photoTile(s, A(c[0]), x, cy, cw, ch, { label:c[1], labelFill:"1C1109", labelColor:CREAM, labelW:cw-0.28, labelSize:11.5, shadow:0.55 });
   });
 
   s.addText("WHAT FOOD REMINDS YOU OF HOME?", { x:0.72, y:5.2, w:12, h:0.8, fontFace:HEAD, fontSize:34, bold:true, color:CREAM, margin:0 });
@@ -218,7 +233,8 @@ And we choose with our HEARTS — memory and emotion pull the strongest of all.
 Thank you so much. And now the only question that really matters… what are you craving? [Smile — let them laugh — done.]`);
 
   pill(s, "THE VERDICT", 0.75, 0.55, 2.3, 0.5, ORANGE, ESPRESSO);
-  s.addText("SO… WHO IS ACTUALLY CHOOSING?", { x:0.7, y:1.1, w:12.4, h:0.9, fontFace:HEAD, fontSize:38, bold:true, color:CREAM, margin:0 });
+  s.addText([{ text:"ARE WE REALLY IN CONTROL? ", options:{color:CREAM} }, { text:"🧠", options:{} }],
+    { x:0.7, y:1.1, w:12.4, h:0.9, fontFace:HEAD, fontSize:38, bold:true, margin:0 });
 
   const steps=[
     ["icon_eye_l.png","WHAT WE SEE"],
